@@ -44,12 +44,12 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
                     ->dehydrated(fn ($state) => filled($state))
                     ->maxLength(255),
-                Select::make('role_id')
+                Select::make('role')
                     ->label('Role')
                     ->required()
                     ->options([
-                        '1' => 'Admin',
-                        '2' => 'Student',
+                       'ADMIN' => 'แอดมิน',
+                       'STUDENT' => 'นักเรียน',
                     ])
                     ->default('2'),
             ]);
@@ -61,11 +61,11 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('email'),
-                TextColumn::make('role_id')->label('Role') 
+                TextColumn::make('role')->label('Role') 
                 ->formatStateUsing(function (string $state): string {
                     $roles = [
-                        '1' => 'Admin',
-                        '2' => 'Student',
+                       'ADMIN' => 'แอดมิน',
+                       'STUDENT' => 'นักเรียน',
                     ];
                     return $roles[$state] ?? $state;
                 }),

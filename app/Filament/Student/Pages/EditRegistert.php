@@ -286,13 +286,16 @@ class EditRegistert extends Page implements HasForms
             } else {
                 $register->update($data);
             }
-            $this->redirect(filament()->getHomeUrl());
+
+            // $this->redirect(filament()->getHomeUrl());
+
         } catch (Halt $exception) {
             return;
         }
         Notification::make()
             ->success()
             ->title(__('filament-panels::resources/pages/edit-record.notifications.saved.title'))
+            ->body('บันทึกสำเร็จ รอเจ้าหน้าที่ติดต่อกลับไป')
             ->send();
     }
 }
