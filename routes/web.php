@@ -14,3 +14,9 @@ Route::get('/test', function () {
 });
 
 //Route::get('/companies', [CompanyController::class, 'index']);
+
+Route::resource('companies', CompanyController::class);
+
+// Route::get('/companies', function () {
+//     return 'Hello World';
+// });
