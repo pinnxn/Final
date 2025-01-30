@@ -85,24 +85,24 @@ class EditRegistert extends Page implements HasForms
                                     'mr' => 'นาย',
                                     'ms' => 'นางสาว',
                                     'mrs' => 'นาง',
-                                ]),
-                            TextInput::make('name')->label(__('ชื่อ'))->maxLength(255),
-                            TextInput::make('lastname')->label(__('นามสกุล'))->maxLength(255),
-                            TextInput::make('nickname')->label(__('ชื่อเล่น'))->maxLength(255),
-                            TextInput::make('id_card')->label(__('เลขประจำตัวประชาชน'))->maxLength(13),
-                            DatePicker::make('date_of_birth')->label(__('วันเกิด'))->format('d-m-Y'),
+                                ])->required(),
+                            TextInput::make('name')->label(__('ชื่อ'))->maxLength(255)->required(),
+                            TextInput::make('lastname')->label(__('นามสกุล'))->maxLength(255)->required(),
+                            TextInput::make('nickname')->label(__('ชื่อเล่น'))->maxLength(255)->required(),
+                            TextInput::make('id_card')->label(__('เลขประจำตัวประชาชน'))->maxLength(13)->required(),
+                            DatePicker::make('date_of_birth')->label(__('วันเกิด'))->format('d-m-Y')->required(),
                             Radio::make('gender')->label(__('เพศ'))
                                 ->options([
                                     'male' => 'ชาย',
                                     'female' => 'หญิง',
-                                ])->columns(2),
-                            TextInput::make('age')->label(__('อายุ')),
-                            TextInput::make('nationality')->label(__('สัญชาติ')),
-                            TextInput::make('ethnicity')->label(__('เชื้อชาติ')),
-                            TextInput::make('address')->label(__('ที่อยู่ตามบัตรประชาชน (กรุณาระบุบ้านเลขที่ หมู่ ซอย ถนน)')),
-                            TextInput::make('district')->label(__('อำเภอ')),
-                            TextInput::make('province')->label(__('จังหวัด')),
-                            TextInput::make('postcode')->label(__('รหัสไปรษณีย์')),
+                                ])->columns(2)->required(),
+                            TextInput::make('age')->label(__('อายุ'))->required(),
+                            TextInput::make('nationality')->label(__('สัญชาติ'))->required(),
+                            TextInput::make('ethnicity')->label(__('เชื้อชาติ'))->required(),
+                            TextInput::make('address')->label(__('ที่อยู่ตามบัตรประชาชน (กรุณาระบุบ้านเลขที่ หมู่ ซอย ถนน)'))->required(),
+                            TextInput::make('district')->label(__('อำเภอ'))->required(),
+                            TextInput::make('province')->label(__('จังหวัด'))->required(),
+                            TextInput::make('postcode')->label(__('รหัสไปรษณีย์'))->required(),
                             Radio::make('shipping_address')
                                 ->label(__('ที่อยู่สำหรับการจัดส่งของรางวัล (กรณีได้รับรางวัล) หากที่อยู่ไม่ตามบัตรประชาชนให้กรอกข้อมูลให้ครบถ้วนในช่องอื่นๆ'))
                                 ->options([
@@ -110,29 +110,29 @@ class EditRegistert extends Page implements HasForms
                                     'other' => 'อื่นๆ',
                                 ])
                                 ->live()
-                                ->columns(2),
+                                ->columns(2)->required(),
                             TextInput::make('shipping_address_detail')
                                 ->label(__('ที่อยู่จัดส่ง'))
                                 ->placeholder('กรุณาระบุที่อยู่ให้ครบถ้วน')
                                 ->default('')
                                 ->hidden(fn(Get $get) => $get('shipping_address') !== 'other'),
-                            TextInput::make('phone_number')->tel()->label(__('เบอร์โทรศัทพ์ของนักเรียน')),
-                            TextInput::make('email')->label(__('E-mail')),
+                            TextInput::make('phone_number')->tel()->label(__('เบอร์โทรศัทพ์ของนักเรียน'))->required(),
+                            TextInput::make('email')->label(__('E-mail'))->required(),
                             TextInput::make('line_id')->label(__('Line ID')),
-                            TextInput::make('facebook')->label(__('Facebook')),
-                            TextInput::make('name_parent')->label(__('ชื่อนามสกุลผู้ปกครอง')),
-                            TextInput::make('phone_parent')->label(__('เบอร์โทรศัทพ์ผู้ปกครอง')),
+                            TextInput::make('facebook')->label(__('Facebook'))->required(),
+                            TextInput::make('name_parent')->label(__('ชื่อนามสกุลผู้ปกครอง'))->required(),
+                            TextInput::make('phone_parent')->label(__('เบอร์โทรศัทพ์ผู้ปกครอง'))->required(),
                             Radio::make('sick')->label(__('เคยป่วยเป็นโรคที่ต้องเฝ้าดูอาการอย่างต่อเนื่องหรือไหม (ถ้าเคย โปรดระบุอื่น ๆ)'))
                                 ->options([
                                     'no' => 'ไม่เคย',
                                     'yes' => 'เคย',
-                                ])->live()->columns(2),
+                                ])->live()->columns(2)->required(),
                             TextInput::make('sick_detail')->label(__('รายละเอียดประวัติเจ็บป่วย'))
                                 ->placeholder('โปรดระบุ')
                                 ->default('')
                                 ->hidden(fn(Get $get) => $get('sick') !== 'yes'),
-                            TextInput::make('name_emergency_contact')->label(__('ชื่อผู้ติดต่อในกรณีฉุกเฉิน')),
-                            TextInput::make('phone_emergency_contact')->label(__('เบอร์ติดต่อในกรณีฉุกเฉิน')),
+                            TextInput::make('name_emergency_contact')->label(__('ชื่อผู้ติดต่อในกรณีฉุกเฉิน'))->required(),
+                            TextInput::make('phone_emergency_contact')->label(__('เบอร์ติดต่อในกรณีฉุกเฉิน'))->required(),
                             CheckboxList::make('food_allergy')
                                 ->label(__('แพ้อาหารหรือไม่ (เช่น อาหารทะเล ฯลฯ)'))
                                 ->options([
@@ -156,7 +156,7 @@ class EditRegistert extends Page implements HasForms
                                         return;
                                     }
                                     
-                                })->columns(2),
+                                })->columns(2)->required(),
                             TextInput::make('food_allergy_detail')
                                 ->label('อาการแพ้อาหารอื่นๆ')
                                 ->placeholder('โปรดระบุ')
@@ -171,10 +171,10 @@ class EditRegistert extends Page implements HasForms
                                     'm6' => 'กำลังศึกษาชั้นมัธยมศึกษาปีที่ 6',
                                     'endm6' => 'สำเร็จการศึกษาชั้นมัธยมศึกษาปีที่ 6',
                                     'equivalent' => 'เทียบเท่า / อิสระ (Home school / กศน. / ปวช. หรืออื่น ๆ) เฉพาะสายคอมพิวเตอร์หรือเทคโนโลยีเท่านั้น',
-                                ]),
-                            TextInput::make('name_education')->label(__('ชื่อสถาบัน/โรงเรียน')),
-                            TextInput::make('address_education')->label(__('ที่อยู่สถาบัน/โรงเรียน')),
-                            TextInput::make('province_education')->label(__('จังหวัด')),
+                                ])->required(),
+                            TextInput::make('name_education')->label(__('ชื่อสถาบัน/โรงเรียน'))->required(),
+                            TextInput::make('address_education')->label(__('ที่อยู่สถาบัน/โรงเรียน'))->required(),
+                            TextInput::make('province_education')->label(__('จังหวัด'))->required(),
                             Select::make('study_plan')->label(__('แผนการเรียน'))
                                 ->options([
                                     'sci_math' => 'สายวิทย์-คณิต',
@@ -182,10 +182,10 @@ class EditRegistert extends Page implements HasForms
                                     'sci_it' => 'สายวิทย์-คอมพิวเตอร์',
                                     'art_math' => 'สายศิลป์-คำนวณ',
                                     'art_language' => 'สายศิลป์-ภาษา',
-                                ]),
-                            TextInput::make('gpax')->label(__('เกรดเฉลี่ยรวม')),
-                            TextInput::make('gpa_english')->label(__('เกรดเฉลี่ยรวมวิชาภาษาอังกฤษ')),
-                            TextInput::make('gpa_maths')->label(__('เกรดเฉลี่ยรวมวิชาคณิตศาสตร์')),
+                                ])->required(),
+                            TextInput::make('gpax')->label(__('เกรดเฉลี่ยรวม'))->required(),
+                            TextInput::make('gpa_english')->label(__('เกรดเฉลี่ยรวมวิชาภาษาอังกฤษ'))->required(),
+                            TextInput::make('gpa_maths')->label(__('เกรดเฉลี่ยรวมวิชาคณิตศาสตร์'))->required(),
                             CheckboxList::make('experience')->label(__('ประสบการณ์/ความสามารถพิเศษ ที่เกี่ยวข้องกับคอมพิวเตอร์ (สามารถเลือกได้หลายตัวเลือกและเพิ่มเติมได้)'))
                                 ->options([
                                     'have' => 'มีประสบการณ์การเขียนโปรแกรมเบื้องต้น',
@@ -214,7 +214,7 @@ class EditRegistert extends Page implements HasForms
                                         $set('experience', $state);
                                     }
                                 })
-                                ->columns(2),
+                                ->columns(2)->required(),
                             TextInput::make('experience_other')->label(__('รายละเอียดประสบการณ์/ความสามารถพิเศษอื่นๆ'))
                                 ->placeholder('โปรดระบุ')
                                 ->default('')
@@ -224,8 +224,8 @@ class EditRegistert extends Page implements HasForms
                         ])->columns(3),
                     Wizard\Step::make(label: 'Link')
                         ->schema([
-                            TextInput::make('link_intro')->label(__('กรุณาแนบ Link คลิปวีดีโอแนะนำตัวประมาณ 3 นาที ')),
-                            TextInput::make('link_transcript')->label(__('กรุณาแนบ Link สำหรับไฟล์ ใบประมวลผลการศึกษาถึงปัจจุบัน (Transcript)')),
+                            TextInput::make('link_intro')->label(__('กรุณาแนบ Link คลิปวีดีโอแนะนำตัวประมาณ 3 นาที '))->required(),
+                            TextInput::make('link_transcript')->label(__('กรุณาแนบ Link สำหรับไฟล์ ใบประมวลผลการศึกษาถึงปัจจุบัน (Transcript)'))->required(),
                             TextInput::make('link_portfolio')->label(__('กรุณาแนบ Link สำหรับไฟล์ Portfolio (ถ้ามี)')),
                             TextInput::make('link_egd')->label(__('กลุ่มเทียบเท่า / อิสระ (Home school / กศน. / ปวช. หรืออื่น ๆ) เฉพาะสายคอมพิวเตอร์หรือเทคโนโลยีเท่านั้น 
 กรุณาแนบ Link สำหรับเอกสาร GED   ')),
@@ -244,7 +244,7 @@ class EditRegistert extends Page implements HasForms
                                     'friend' => 'เพื่อนแนะนำ',
                                     'other' => 'อื่นๆ',
                                 ])->live()
-                                ->default([]),
+                                ->default([])->required(),
                             TextInput::make('news_other')
                                 ->label('โปรดระบุแหล่งข้อมูลอื่นๆ')
                                 ->placeholder('กรุณาระบุ')
@@ -253,12 +253,12 @@ class EditRegistert extends Page implements HasForms
                                 ->options([
                                     'agree' => 'ยินยอม',
                                     'no' => 'ไม่ยินยอม',
-                                ]),
+                                ])->required(),
                             Radio::make('condition')->label(__('ข้าพเจ้าขอรับรองว่า ข้อความดังกล่าวทั้งหมดในใบสมัครนี้เป็นความจริงทุกประการ หากข้อความในใบสมัครงานเอกสารที่นำมาแสดง หรือรายละเอียดที่ให้ไว้ไม่เป็นความจริง ทางวิทยาลัยศิลปะ สื่อ และเทคโนโลยี มหาวิทยาลัยเชียงใหม่ มีสิทธิ์ที่จะยกเลิกประกาศที่เกี่ยวข้องกับข้าพเจ้าได้ในทันที'))
                                 ->options([
                                     'agree' => 'ยินยอม',
                                     'no' => 'ไม่ยินยอม',
-                                ]),
+                                ])->required(),
                         ]),
                 ])->columnSpanFull()
             ])->statePath('data');
