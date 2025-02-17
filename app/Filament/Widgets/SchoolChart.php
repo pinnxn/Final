@@ -47,16 +47,17 @@ class SchoolChart extends ChartWidget
 
         $datasets = [];
         $colors = [
-            '#66c2a5',  // Soft Teal
-            '#fc8d62',  // Soft Orange
-            '#8da0cb',  // Soft Blue
-            '#e78ac3',  // Soft Magenta
-            '#a6d854',  // Soft Green
-            '#ffd92f',  // Soft Yellow
-            '#e5c494',  // Tan
-            '#b3b3b3',  // Gray
-            '#8dd3c7',  // Light Teal
-            '#bebada'   // Lavender
+            '#1f77b4',  // Muted Blue
+            '#ff7f0e',  // Safety Orange
+            '#2ca02c',  // Cooked Asparagus Green
+            '#d62728',  // Brick Red
+            '#9467bd',  // Muted Purple
+            '#8c564b',  // Chestnut Brown
+            '#e377c2',  // Raspberry Yogurt
+            '#7f7f7f',  // Middle Grey
+            '#bcbd22',  // Curry Yellow
+            '#17becf',  // Blue-Teal
+
             ];
 
         foreach ($years as $index => $year) {
