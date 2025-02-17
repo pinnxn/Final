@@ -46,7 +46,18 @@ class SchoolChart extends ChartWidget
         $schools = $data->pluck('name_education')->unique()->values();
 
         $datasets = [];
-        $colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+        $colors = [
+            '#66c2a5',  // Soft Teal
+            '#fc8d62',  // Soft Orange
+            '#8da0cb',  // Soft Blue
+            '#e78ac3',  // Soft Magenta
+            '#a6d854',  // Soft Green
+            '#ffd92f',  // Soft Yellow
+            '#e5c494',  // Tan
+            '#b3b3b3',  // Gray
+            '#8dd3c7',  // Light Teal
+            '#bebada'   // Lavender
+            ];
 
         foreach ($years as $index => $year) {
             $yearData = $data->where('year', $year);

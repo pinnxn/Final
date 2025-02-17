@@ -9,6 +9,6 @@ class RegisterSeeder extends Seeder
 {
     public function run(): void
     {
-        Register::factory()->count(40)->create();
+        Register::factory()->count(165)->create();
     }
 }

@@ -16,19 +16,18 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'role_id' => '1',
+            'role' => 'ADMIN',
             'password' => bcrypt('123456'),
         ]);
 
         User::create([
             'name' => 'prene',
             'email' => 'janyarat.ma@gmail.com',
-            'role_id' => '2',
+            'role' => 'STUDENT',
             'password' => bcrypt('123456'),
         ]);
 
         $this->call([
-            RoleSeeder::class,
             CompanySeeder::class,
             RegisterSeeder::class,
             // ... other seeders ...
