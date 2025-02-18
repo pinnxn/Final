@@ -233,22 +233,29 @@ class EditRegistert extends Page implements HasForms
                     Wizard\Step::make(label: 'File')
                         ->schema([
                             CheckboxList::make('news')
-                                ->label(__('ผู้สมัครได้รับข้อมูล/ข่าวสารโครงการจากแหล่งใด'))
-                                ->options([
-                                    'facebook' => 'Page Facebook DII',
-                                    'public_relations' => 'การประชาสัมพันธ์ในโรงเรียน',
-                                    'teacher' => 'คุณครูเเนะเเนว',
-                                    'parents' => 'ผู้ปกครอง',
-                                    'website_dek_DII' => 'Website Dek-D',
-                                    'senior_college' => 'รุ่นพี่ในวิทยาลัยศิลปะ สื่อ และเทคโนโลยี',
-                                    'friend' => 'เพื่อนแนะนำ',
-                                    'other' => 'อื่นๆ',
-                                ])->live()
-                                ->default([])->required(),
-                            TextInput::make('news_other')
-                                ->label('โปรดระบุแหล่งข้อมูลอื่นๆ')
-                                ->placeholder('กรุณาระบุ')
-                                ->hidden(fn(Get $get): bool => !in_array('other', $get('news') ?? [])),
+                            ->label(__('ผู้สมัครได้รับข้อมูล/ข่าวสารโครงการจากแหล่งใด'))
+                            ->options([
+                                'facebook' => 'Page Facebook DII',
+                                'public_relations' => 'การประชาสัมพันธ์ในโรงเรียน',
+                                'teacher' => 'คุณครูเเนะเเนว',
+                                'parents' => 'ผู้ปกครอง',
+                                'website_dek_DII' => 'Website Dek-D',
+                                'senior_college' => 'รุ่นพี่ในวิทยาลัยศิลปะ สื่อ และเทคโนโลยี',
+                                'friend' => 'เพื่อนแนะนำ',
+                                'other' => 'อื่นๆ',
+                            ])->live()
+                            ->default([])
+                            ->required()
+                            ->afterStateUpdated(function (Set $set, $state) {
+                                if (!is_array($state)) {
+                                    $state = [];
+                                    $set('news', $state);
+                                }
+                            }),
+                        TextInput::make('news_other')
+                            ->label('โปรดระบุแหล่งข้อมูลอื่นๆ')
+                            ->placeholder('กรุณาระบุ')
+                            ->hidden(fn(Get $get): bool => !in_array('other', $get('news') ?? [])),
                             Radio::make('pdpa')->label(__('ตามที่จะมีการจัดกิจกรรม และมีการบันทึกภาพวิดิโอ และภาพนิ่งของกิจกรรมม นั้น เนื่องด้วยกฎหมาย PDPA หากมีใบหน้าของข้าพเจ้า ข้าพเจ้ายินยอมที่จะให้ทางวิทยาลัยฯ เผยเเพร่ภาพบันทึกภาพวิดิโอ และภาพนิ่ง ในสื่อสาธารณะชน'))
                                 ->options([
                                     'agree' => 'ยินยอม',

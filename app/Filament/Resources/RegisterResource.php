@@ -230,8 +230,11 @@ class RegisterResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('prefix_name')->label(__('คำนำหน้าชื่อ'))
-                    ->toggleable()->formatStateUsing(function (string $state): string {
+                TextColumn::make('prefix_name')
+                    ->label(__('คำนำหน้าชื่อ'))
+                    ->toggleable()
+                    ->searchable()
+                    ->formatStateUsing(function (string $state): string {
                         $prefixNames = [
                             'mr' => 'นาย',
                             'ms' => 'นางสาว',
@@ -239,14 +242,28 @@ class RegisterResource extends Resource
                         ];
                         return $prefixNames[$state] ?? $state;
                     }),
-                TextColumn::make('name')->label(__('ชื่อ'))->toggleable(),
-                TextColumn::make('lastname')->label(__('นามสกุล'))->toggleable(),
-                TextColumn::make('nickname')->label(__('ชื่อเล่น'))->toggleable(),
+                TextColumn::make('name')
+                    ->label(__('ชื่อ'))
+                    ->toggleable()
+                    ->sortable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query->where('name', 'LIKE BINARY', "%{$search}%");
+                    }),
+                TextColumn::make('lastname')
+                    ->label(__('นามสกุล'))
+                    ->toggleable()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('nickname')
+                    ->label(__('ชื่อเล่น'))
+                    ->toggleable()
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('id_card')->label(__('รหัสประจำตัวประชาชน'))->toggleable(),
                 TextColumn::make('date_of_birth')->label(__('วันเกิด'))->date('d-m-Y')->toggleable(),
                 TextColumn::make('age')->label(__('อายุ'))->toggleable(),
                 TextColumn::make('nationality')->label(__('สัญชาติ'))->toggleable(),
-                TextColumn::make('ethnicity')->label(__('เชื้อชาติ'))->toggleable(),
+                TextColumn::make('ethnicity')->label(__('เชื้อชาติ'))->toggleable()->searchable(),
                 TextColumn::make('gender')->label(__('เพศ'))->toggleable()
                     ->formatStateUsing(function (string $state): string {
                         $genders = [
@@ -255,28 +272,34 @@ class RegisterResource extends Resource
                         ];
                         return $genders[$state] ?? $state;
                     }),
-                TextColumn::make('address')->label(__('ที่อยู่ตามบัตรประชาชน'))->toggleable(),
-                TextColumn::make('district')->label(__('อำเภอ'))->toggleable(),
+                TextColumn::make('address')->label(__('ที่อยู่ตามบัตรประชาชน'))->toggleable()->searchable(),
+                TextColumn::make('district')->label(__('อำเภอ'))->toggleable()->sortable()->searchable(),
                 TextColumn::make('province')->label(__('จังหวัด'))->toggleable()->sortable()->searchable(),
-                TextColumn::make('postcode')->label(__('รหัสไปรษณีย์'))->toggleable(),
+                TextColumn::make('postcode')->label(__('รหัสไปรษณีย์'))->toggleable()->sortable()->searchable(),
                 TextColumn::make('shipping_address')->label(__('ที่อยู่สำหรับการจัดส่งของรางวัล (กรณีได้รับรางวัล) หากที่อยู่ไม่ตามบัตรประชาชนให้กรอกข้อมูลให้ครบถ้วนในช่องอื่นๆ'))
                     ->formatStateUsing(function ($record): string {
                         if ($record->shipping_address === 'same') return 'เหมือนที่อยู่ตามบัตรประชาชน';
                         return 'อื่นๆ: ' . $record->shipping_address_detail;
                     }),
-                TextColumn::make('phone_number')->label(__('เบอร์โทรศัทพ์ของนักเรียน'))->toggleable(),
-                TextColumn::make('email')->label(__('E-mail'))->toggleable(),
-                TextColumn::make('line_id')->label(__('Line ID'))->toggleable(),
-                TextColumn::make('facebook')->label(__('Facebook'))->toggleable(),
-                TextColumn::make('name_parent')->label(__('ชื่อนามสกุลผู้ปกครอง'))->toggleable(),
-                TextColumn::make('phone_parent')->label(__('เบอร์โทรศัทพ์ผู้ปกครอง'))->toggleable(),
+                TextColumn::make('phone_number')->label(__('เบอร์โทรศัทพ์ของนักเรียน'))->toggleable()->searchable(),
+                TextColumn::make('email')->label(__('E-mail'))->toggleable()->searchable(),
+                TextColumn::make('line_id')->label(__('Line ID'))->toggleable()->searchable(),
+                TextColumn::make('facebook')->label(__('Facebook'))->toggleable()->searchable(),
+                TextColumn::make('name_parent')
+                    ->label(__('ชื่อนามสกุลผู้ปกครอง'))
+                    ->toggleable()
+                    ->searchable(),
+                TextColumn::make('phone_parent')->label(__('เบอร์โทรศัทพ์ผู้ปกครอง'))->toggleable()->searchable(),
                 TextColumn::make('sick')->label(__('เคยป่วยเป็นโรคที่ต้องเฝ้าดูอาการอย่างต่อเนื่องหรือไหม (ถ้าเคย โปรดระบุอื่น ๆ)'))
                     ->formatStateUsing(function ($record): string {
                         if ($record->sick === 'no') return 'ไม่เคย';
                         return 'เคย: ' . $record->sick_detail;
                     }),
-                TextColumn::make('name_emergency_contact')->label(__('ชื่อผู้ติดต่อในกรณีฉุกเฉิน'))->toggleable(),
-                TextColumn::make('phone_emergency_contact')->label(__('เบอร์ติดต่อในกรณีฉุกเฉิน'))->toggleable(),
+                TextColumn::make('name_emergency_contact')
+                    ->label(__('ชื่อผู้ติดต่อในกรณีฉุกเฉิน'))
+                    ->toggleable()
+                    ->searchable(),
+                TextColumn::make('phone_emergency_contact')->label(__('เบอร์ติดต่อในกรณีฉุกเฉิน'))->toggleable()->searchable(),
                 TextColumn::make('food_allergy')
                     ->label(__('แพ้อาหารหรือไม่ (เช่น อาหารทะเล ฯลฯ)'))
                     ->formatStateUsing(function ($record): string {
@@ -303,9 +326,13 @@ class RegisterResource extends Resource
                     ];
                     return $educationStatuses[$state] ?? $state;
                 }),
-                TextColumn::make('name_education')->label(__('ชื่อสถาบัน/โรงเรียน'))->toggleable()->sortable(),
-                TextColumn::make('address_education')->label(__('ที่อยู่สถาบัน/โรงเรียน'))->toggleable(),
-                TextColumn::make('province_education')->label(__('จังหวัด'))->toggleable(),
+                TextColumn::make('name_education')
+                    ->label(__('ชื่อสถาบัน/โรงเรียน'))
+                    ->toggleable()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('address_education')->label(__('ที่อยู่สถาบัน/โรงเรียน'))->toggleable()->searchable(),
+                TextColumn::make('province_education')->label(__('จังหวัด'))->toggleable()->searchable(),
                 TextColumn::make('study_plan')->label(__('แผนการเรียน'))->toggleable()
                     ->formatStateUsing(function (string $state): string {
                         $studyPlans = [
@@ -317,9 +344,9 @@ class RegisterResource extends Resource
                         ];
                         return $studyPlans[$state] ?? $state;
                     }),
-                TextColumn::make('gpax')->label(__('เกรดเฉลี่ยรวม'))->toggleable(),
-                TextColumn::make('gpa_english')->label(__('เกรดเฉลี่ยรวมวิชาภาษาอังกฤษ'))->toggleable(),
-                TextColumn::make('gpa_maths')->label(__('เกรดเฉลี่ยรวมวิชาคณิตศาสตร์'))->toggleable(),
+                TextColumn::make('gpax')->label(__('เกรดเฉลี่ยรวม'))->toggleable()->sortable()->searchable(),
+                TextColumn::make('gpa_english')->label(__('เกรดเฉลี่ยรวมวิชาภาษาอังกฤษ'))->toggleable()->sortable()->searchable(),
+                TextColumn::make('gpa_maths')->label(__('เกรดเฉลี่ยรวมวิชาคณิตศาสตร์'))->toggleable()->sortable()->searchable(),
                 TextColumn::make('experience')
                     ->label(__('ประสบการณ์/ความสามารถพิเศษ ที่เกี่ยวข้องกับคอมพิวเตอร์'))
                     ->formatStateUsing(function ($record): string {
@@ -339,7 +366,7 @@ class RegisterResource extends Resource
 
                         return $experiences->implode(', ');
                     }),
-                TextColumn::make('reward')->label(__('รางวัล/ประสบการณ์/ความสามารถพิเศษอื่นๆ โปรดระบุ'))->toggleable(),
+                TextColumn::make('reward')->label(__('รางวัล/ประสบการณ์/ความสามารถพิเศษอื่นๆ โปรดระบุ'))->toggleable()->searchable(),
                 TextColumn::make('hobby')->label(__('งานอดิเรก'))->toggleable(),
                 TextColumn::make('link_intro')->label(__('กรุณาแนบ Link คลิปวีดีโอแนะนำตัวประมาณ 3 นาที '))->toggleable(),
                 TextColumn::make('link_transcript')->label(__('กรุณาแนบ Link สำหรับไฟล์ ใบประมวลผลการศึกษาถึงปัจจุบัน (Transcript)'))->toggleable(),
